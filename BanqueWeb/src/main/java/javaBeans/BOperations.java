@@ -7,7 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 
 /**
- * This class represent
+ * Represent the data base intermediary of the web application.
+ * Some methods are available to provide tipical actions expected on the data base "BANQUE".
  */
 public class BOperations {
 
@@ -16,10 +17,17 @@ public class BOperations {
     private ArrayList<String[]> operationsParDates;
     private Connection connect;
 
+    /**
+     * Set the account number used for the next transactions.
+     * @param noCompte String that represent the account number to use
+     */
     public void setNoCompte(String noCompte) {
         this.noCompte = noCompte;
     }
 
+    /**
+     *
+     */
     public void ouvrirConnexion() {
         try {
             connect = DriverManager.getConnection(
@@ -29,6 +37,9 @@ public class BOperations {
         }
     }
 
+    /**
+     *
+     */
     public void fermerConnexion() {
         try {
             connect.close();
@@ -37,6 +48,10 @@ public class BOperations {
         }
     }
 
+    /**
+     *
+     * @throws TraitementException
+     */
     public void consulter() throws TraitementException {
         try (Statement statmt = connect.createStatement()) {
             ResultSet res = statmt.executeQuery("SELECT * FROM COMPTE WHERE noCompte=" + noCompte + ";");
@@ -51,6 +66,10 @@ public class BOperations {
         }
     }
 
+    /**
+     *
+     * @throws TraitementException
+     */
     public void traiter() throws TraitementException {
         Statement statmt = null;
         try {
@@ -76,6 +95,10 @@ public class BOperations {
         }
     }
 
+    /**
+     *
+     * @throws TraitementException
+     */
     public void listerParDates() throws TraitementException {
         try {
             var statment = connect.createStatement();
@@ -97,62 +120,122 @@ public class BOperations {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDateInf() {
         return dateInf;
     }
 
+    /**
+     *
+     * @param dateInf
+     */
     public void setDateInf(String dateInf) {
         this.dateInf = dateInf;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDateSup() {
         return dateSup;
     }
 
+    /**
+     *
+     * @param dateSup
+     */
     public void setDateSup(String dateSup) {
         this.dateSup = dateSup;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String[]> getOperationsParDates() {
         return operationsParDates;
     }
 
+    /**
+     *
+     * @param op
+     */
     public void setOp(String op) {
         this.op = op;
     }
 
+    /**
+     *
+     * @param valeur
+     */
     public void setValeur(String valeur) {
         this.valeur = new BigDecimal(valeur);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getOp() {
         return op;
     }
 
+    /**
+     *
+     * @return
+     */
     public BigDecimal getAncienSolde() {
         return ancienSolde;
     }
 
+    /**
+     *
+     * @return
+     */
     public BigDecimal getNouveauSolde() {
         return nouveauSolde;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getValeur() {
         return valeur.toString();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNoCompte() {
         return noCompte;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNom() {
         return nom;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPrenom() {
         return prenom;
     }
 
+    /**
+     * 
+     * @return
+     */
     public BigDecimal getSolde() {
         return solde;
     }

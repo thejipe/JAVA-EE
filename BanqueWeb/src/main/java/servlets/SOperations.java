@@ -69,7 +69,7 @@ public class SOperations extends HttpServlet {
                 /*
                 for(String attribute: session.getAttributeNames()) {
                     session.removeAttribute(attribute);
-                } ???
+                } ??? Ou plutôt faire une liste des attributs associés au client et tous les supprimer (cf fin exo 16)
                 */
                 session.setAttribute("sesOPE", MethodMode.SAISIE.toString());
                 doPost(request, response);
