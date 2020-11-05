@@ -23,7 +23,7 @@ public class SOperations extends HttpServlet {
      *
      */
     enum MethodMode {
-        SAISIE, CONSULTATION
+        SAISIE, CONSULTATION, FIN_TRAITEMENT
     }
 
     /**
@@ -62,6 +62,17 @@ public class SOperations extends HttpServlet {
                 } catch (TraitementException e) {
                     process_Error(action, session, request, response, e);
                 }
+                break;
+            case FIN_TRAITEMENT:
+                // TODO
+                //session.invalidate(); ???
+                /*
+                for(String attribute: session.getAttributeNames()) {
+                    session.removeAttribute(attribute);
+                } ???
+                */
+                session.setAttribute("sesOPE", MethodMode.SAISIE.toString());
+                doPost(request, response);
                 break;
         }
     }
@@ -128,13 +139,29 @@ public class SOperations extends HttpServlet {
      */
     private HttpServletRequest listeOperations(HttpServletRequest req) throws TraitementException {
         bop.ouvrirConnexion();
-        bop.setDateInf(String.format("%s-%s-%s", req.getParameter("aInit"), req.getParameter("mInit"), req.getParameter("jInit")));
-        bop.setDateSup(String.format("%s-%s-%s", req.getParameter("aFinal"), req.getParameter("mFinal"), req.getParameter("jFinal")));
+        var dateInf = String.format("%s-%s-%s", req.getParameter("aInit"), req.getParameter("mInit"), req.getParameter("jInit"));
+        var dateSup = String.format("%s-%s-%s", req.getParameter("aFinal"), req.getParameter("mFinal"), req.getParameter("jFinal"));
+        if(!verifDates(dateInf, dateSup)) {
+            throw new TraitementException("32");
+        }
+        bop.setDateInf(dateInf);
+        bop.setDateSup(dateSup);
         bop.listerParDates();
         ArrayList<String[]> result = bop.getOperationsParDates();
         req.setAttribute("listeOp", result);
         bop.fermerConnexion();
         return req;
+    }
+
+    private boolean verifDates(String dateInf, String dateSup) {
+        var valuesInf = dateInf.split("-");
+        var valuesSup = dateSup.split("-");
+        for(int index = 0; index < valuesInf.length; index++) {
+            if(Integer.parseInt(valuesInf[index]) > Integer.parseInt(valuesSup[index])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

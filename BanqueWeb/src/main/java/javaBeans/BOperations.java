@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 /**
- * This class represent 
+ * This class represent
  */
 public class BOperations {
 
