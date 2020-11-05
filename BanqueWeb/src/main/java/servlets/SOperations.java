@@ -13,15 +13,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+/**
+ * This class represent
+ */
 @WebServlet(urlPatterns = {"/Compte/SaisieNoDeCompte", "/Compte/Operations"})
 public class SOperations extends HttpServlet {
 
+    /**
+     *
+     */
     enum MethodMode {
         SAISIE, CONSULTATION
     }
 
+    /**
+     *
+     */
     private BOperations bop;
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         MethodMode statut = MethodMode.valueOf((String) session.getAttribute("sesOPE"));
@@ -50,6 +66,13 @@ public class SOperations extends HttpServlet {
         }
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.setAttribute("sesOPE", "SAISIE");

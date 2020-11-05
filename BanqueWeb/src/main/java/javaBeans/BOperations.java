@@ -6,6 +6,9 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * This class represent 
+ */
 public class BOperations {
 
     private String noCompte, nom, prenom, op, dateInf, dateSup;
