@@ -28,7 +28,7 @@
         <input type=text id="no_compt" name="no_compt"/>
         <button type="submit">Consulter</button>
     </form>
-    <%if (request.getMethod().equals("POST")) { %>
+    <%if (request.getMethod().equals("POST") && request.getAttribute("Erreur") != null) { %>
     <h1 style="color: red"><%=MessagesDErreurs.getMessageDErreur((String) request.getAttribute("Erreur"))%></h1>
     <% } %>
 </div>

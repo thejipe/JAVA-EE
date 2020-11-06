@@ -40,13 +40,15 @@ public class SOperations extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        var action = request.getParameter("action");
+        String action = request.getParameter("action");
+        System.out.println(action);
         MethodMode statut;
-        if ( action.equals("finTraitement")){
+        if (action != null && action.equals("finTraitement")){
             statut = MethodMode.FIN_TRAITEMENT;
         } else {
             statut = MethodMode.valueOf((String) session.getAttribute("sesOPE"));
         }
+        System.out.println(statut);
         switch (statut) {
             case SAISIE:
                 try {
@@ -76,7 +78,7 @@ public class SOperations extends HttpServlet {
                 }
                 session.setAttribute("noCompte", null);
                 session.setAttribute("sesOPE", MethodMode.SAISIE.toString());
-                getServletContext().getRequestDispatcher("/jsp/JSaisieNoDeCompte.jsp").forward(request, response);
+                doGet(request, response);
                 break;
         }
     }
@@ -239,14 +241,13 @@ public class SOperations extends HttpServlet {
      * @throws IOException
      */
     private void process_Error(String action, HttpSession session, HttpServletRequest req, HttpServletResponse res, TraitementException e) throws ServletException, IOException {
+        System.out.println(e.getMessage());
         req.setAttribute("Erreur", e.getMessage());
         session.setAttribute("statut","error");
         switch (action) {
             case "traitement":
-                getServletContext().getRequestDispatcher("/jsp/JOperations.jsp").forward(req, res);
-                break;
             case "extraction":
-                getServletContext().getRequestDispatcher("/jsp/JListeOpérations.jsp").forward(req, res);
+                getServletContext().getRequestDispatcher("/jsp/JOperations.jsp").forward(req, res);
                 break;
             case "retour": break;
         }

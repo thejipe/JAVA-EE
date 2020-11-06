@@ -1,10 +1,4 @@
-<%@ page import="gestionsErreurs.MessagesDErreurs" %><%--
-  Created by IntelliJ IDEA.
-  User: xell
-  Date: 20/10/2020
-  Time: 21:14
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="gestionsErreurs.MessagesDErreurs" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -34,7 +28,7 @@
         <input type=text id="no_compt" name="no_compt"/>
         <button type="submit">Consulter</button>
     </form>
-    <%if (request.getMethod().equals("POST")) { %>
+    <%if (request.getMethod().equals("POST") && request.getAttribute("Erreur") != null) { %>
     <h1 style="color: red"><%=MessagesDErreurs.getMessageDErreur((String) request.getAttribute("Erreur"))%></h1>
     <% } %>
 </div>
