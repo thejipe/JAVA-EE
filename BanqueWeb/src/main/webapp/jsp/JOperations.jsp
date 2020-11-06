@@ -41,6 +41,7 @@
                 <tr><jsp:include page="composant/dates_selector.jsp"/></tr>
             </tbody>
         </table>
+        <button name="action" type="submit" value="finTraitement">Fin de traitement</button>
     </form>
 
     <% switch (statut) {

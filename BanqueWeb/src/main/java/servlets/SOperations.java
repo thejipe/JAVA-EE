@@ -40,7 +40,13 @@ public class SOperations extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        MethodMode statut = MethodMode.valueOf((String) session.getAttribute("sesOPE"));
+        var action = request.getParameter("action");
+        MethodMode statut;
+        if ( action == "finTraitement" ){
+            statut = MethodMode.FIN_TRAITEMENT;
+        } else {
+            statut = MethodMode.valueOf((String) session.getAttribute("sesOPE"));
+        }
         switch (statut) {
             case SAISIE:
                 try {
@@ -56,7 +62,7 @@ public class SOperations extends HttpServlet {
                 }
                 break;
             case CONSULTATION:
-                var action = request.getParameter("action");
+
                 try {
                     process_Operation(action, session, request, response);
                 } catch (TraitementException e) {
@@ -70,7 +76,7 @@ public class SOperations extends HttpServlet {
                 }
                 session.setAttribute("noCompte", null);
                 session.setAttribute("sesOPE", MethodMode.SAISIE.toString());
-                doPost(request, response);
+                doGet(request, response);
                 break;
         }
     }
