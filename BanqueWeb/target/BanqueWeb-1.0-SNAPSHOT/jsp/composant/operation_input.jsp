@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: xell
-  Date: 25/10/2020
-  Time: 02:41
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
@@ -13,9 +6,9 @@
     if (request.getParameterMap().containsKey("op")){
         op = request.getParameter("op"); valL = request.getParameter("entier"); valR = request.getParameter("decimal");
     } else if (sess.getAttribute("op") != null){
-        op = (String) sess.getAttribute("op"); sess.removeAttribute("op");
-        valL = (String) sess.getAttribute("entier"); sess.removeAttribute("entier");
-        valR = (String) sess.getAttribute("decimal"); sess.removeAttribute("decimal");
+        op = (String) sess.getAttribute("op"); //sess.removeAttribute("op");
+        valL = (String) sess.getAttribute("entier"); //sess.removeAttribute("entier");
+        valR = (String) sess.getAttribute("decimal"); //sess.removeAttribute("decimal");
     }
     boolean error = request.getParameter("statut").equals("error");
     String checkedP = op != null && op.equals("+") ? "checked" : "", checkedM = op != null && op.equals("-") ? "checked" : "";

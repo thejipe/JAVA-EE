@@ -1,12 +1,6 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.text.DecimalFormat" %>
-<%@ page import="java.util.Date" %><%--
-  Created by IntelliJ IDEA.
-  User: xell
-  Date: 25/10/2020
-  Time: 03:04
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.util.Date" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%!
@@ -27,14 +21,13 @@
         rDay = request.getParameter("jInit"); rMonth = request.getParameter("mInit"); rYear = request.getParameter("yInit");
         rDayF = request.getParameter("jFinal"); rMonthF = request.getParameter("mFinal"); rYearF = request.getParameter("yFinal");
     } else {
-        rDay = (String) sess.getAttribute("jInit"); sess.removeAttribute("jInit");
-        rMonth = (String) sess.getAttribute("mInit"); sess.removeAttribute("mInit");
-        rYear = (String) sess.getAttribute("yInit"); sess.removeAttribute("yInit");
-        rDayF = (String) sess.getAttribute("jFinal"); sess.removeAttribute("jFinal");
-        rMonthF = (String) sess.getAttribute("mFinal"); sess.removeAttribute("mFinal");
-        rYearF = (String) sess.getAttribute("yFinal"); sess.removeAttribute("yFinal");
+        rDay = (String) sess.getAttribute("jInit"); //sess.removeAttribute("jInit");
+        rMonth = (String) sess.getAttribute("mInit"); //sess.removeAttribute("mInit");
+        rYear = (String) sess.getAttribute("yInit"); //sess.removeAttribute("yInit");
+        rDayF = (String) sess.getAttribute("jFinal"); //sess.removeAttribute("jFinal");
+        rMonthF = (String) sess.getAttribute("mFinal"); //sess.removeAttribute("mFinal");
+        rYearF = (String) sess.getAttribute("yFinal"); //sess.removeAttribute("yFinal");
     }
-
 
     int year = tern_date(rYear != null, rYear, dateSplit[0]), month = tern_date(rMonth != null, rMonth, dateSplit[1]), day = tern_date(rDay != null, rDay, dateSplit[2]),
             yearF = tern_date(rYearF != null, rYearF, dateSplit[0]), monthF = tern_date(rMonthF != null, rMonthF, dateSplit[1]), dayF = tern_date(rDayF != null, rDayF, dateSplit[2]);

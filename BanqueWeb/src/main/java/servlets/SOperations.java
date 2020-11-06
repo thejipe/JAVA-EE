@@ -3,12 +3,15 @@ package servlets;
 import gestionsErreurs.TraitementException;
 import javaBeans.BOperations;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -30,6 +33,19 @@ public class SOperations extends HttpServlet {
             {"nom", "prenom", "solde", "op", "entier", "decimal", "result", "status", "listeOp",
                     "aInit", "mInit", "jInit", "aFinal", "mFinal", "jFinal", "erreur"};
     private BOperations bop;
+    private DataSource ds;
+
+    @Override
+    public void init() throws ServletException{
+        super.init();
+        String nomDs = getServletContext().getInitParameter("jdbc/Banque");
+        try {
+            var context = new InitialContext();
+            ds = (DataSource) context.lookup("java:comp/env/" + nomDs);
+        } catch (NamingException e) {
+            System.out.println(e);
+        }
+    }
 
     /**
      *
@@ -41,14 +57,12 @@ public class SOperations extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
-        System.out.println(action);
         MethodMode statut;
         if (action != null && action.equals("finTraitement")){
             statut = MethodMode.FIN_TRAITEMENT;
         } else {
             statut = MethodMode.valueOf((String) session.getAttribute("sesOPE"));
         }
-        System.out.println(statut);
         switch (statut) {
             case SAISIE:
                 try {
@@ -105,7 +119,7 @@ public class SOperations extends HttpServlet {
         var noCompte = req.getParameter("no_compt");
         HttpSession session = req.getSession();
         if (verifNoDeCompte(noCompte)) {
-            bop.ouvrirConnexion();
+            bop.ouvrirConnexion(ds);
             bop.setNoCompte(noCompte);
             bop.consulter();
             session.setAttribute("noCompte", noCompte);
@@ -123,7 +137,7 @@ public class SOperations extends HttpServlet {
      * @throws TraitementException
      */
     private HttpServletRequest traitement(HttpServletRequest req) throws TraitementException {
-        bop.ouvrirConnexion();
+        bop.ouvrirConnexion(ds);
         bop.setOp(req.getParameter("op"));
         var value = req.getParameter("entier") + "." + req.getParameter("decimal");
         if (verifValeur(value)){
@@ -144,7 +158,7 @@ public class SOperations extends HttpServlet {
      * @throws TraitementException
      */
     private HttpServletRequest listeOperations(HttpServletRequest req) throws TraitementException {
-        bop.ouvrirConnexion();
+        bop.ouvrirConnexion(ds);
         var dateInf = String.format("%s-%s-%s", req.getParameter("aInit"), req.getParameter("mInit"), req.getParameter("jInit"));
         var dateSup = String.format("%s-%s-%s", req.getParameter("aFinal"), req.getParameter("mFinal"), req.getParameter("jFinal"));
         if(!verifDates(dateInf, dateSup)) {

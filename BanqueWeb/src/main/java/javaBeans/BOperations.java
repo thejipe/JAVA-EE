@@ -2,6 +2,7 @@ package javaBeans;
 
 import gestionsErreurs.TraitementException;
 
+import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,9 +26,10 @@ public class BOperations {
         this.noCompte = noCompte;
     }
 
-    /**
+    /*
      * Provide access to the associated data base. By opening a connection with this one.
      */
+    /*
     public void ouvrirConnexion() {
         try {
             connect = DriverManager.getConnection(
@@ -35,16 +37,26 @@ public class BOperations {
         } catch (SQLException error) {
             error.printStackTrace();
         }
+    }*/
+
+    public void ouvrirConnexion(DataSource ds) throws TraitementException {
+        try {
+            connect = ds.getConnection();
+        } catch (SQLException e) {
+            //System.out.println(e);
+            throw new TraitementException("21");
+        }
     }
 
     /**
      * Close the opened connection to the data base.
      */
-    public void fermerConnexion() {
+    public void fermerConnexion() throws TraitementException {
         try {
             connect.close();
-        } catch (SQLException error) {
-            error.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new TraitementException("22");
         }
     }
 

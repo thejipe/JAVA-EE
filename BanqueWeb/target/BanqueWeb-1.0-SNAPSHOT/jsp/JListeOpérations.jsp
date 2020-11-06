@@ -1,11 +1,5 @@
 <%@ page import="gestionsErreurs.MessagesDErreurs" %>
-<%@ page import="java.util.Arrays" %><%--
-  Created by IntelliJ IDEA.
-  User: xell
-  Date: 25/10/2020
-  Time: 04:37
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.util.Arrays" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
