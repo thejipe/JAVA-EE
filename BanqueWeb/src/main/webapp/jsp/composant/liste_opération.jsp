@@ -6,9 +6,6 @@
 %>
 
 <table id="noOpe">
-    <% if (liste.isEmpty()) { %>
-    <p style="border: 1px solid white; padding: 10px; text-align: center; color: red; max-width: max-content;">Il n'y a aucun résultat</p>
-    <% } else { %>
         <thead>
         <tr>
             <td align="center">Date :</td>
@@ -25,5 +22,4 @@
         </tr>
         <% } %>
         </tbody>
-    <% } %>
 </table>

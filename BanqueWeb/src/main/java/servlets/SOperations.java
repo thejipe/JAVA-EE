@@ -27,7 +27,8 @@ public class SOperations extends HttpServlet {
     }
 
     private final static String [] CLIENT_ATTRIBUTES =
-            {"nom", "prenom", "solde", "op", "entier", "decimal", "result"};
+            {"nom", "prenom", "solde", "op", "entier", "decimal", "result", "status", "listeOp",
+                    "aInit", "mInit", "jInit", "aFinal", "mFinal", "jFinal", "erreur"};
     private BOperations bop;
 
     /**
@@ -64,7 +65,6 @@ public class SOperations extends HttpServlet {
                 break;
             case FIN_TRAITEMENT:
                 // TODO : verif and finish fill the CLIENT_ATTRIBUTES array
-                // faire une liste des attributs associés au client et tous les supprimer (cf fin exo 16)
                 for(String attribute: CLIENT_ATTRIBUTES) {
                     session.removeAttribute(attribute);
                 }
@@ -140,12 +140,15 @@ public class SOperations extends HttpServlet {
         var dateInf = String.format("%s-%s-%s", req.getParameter("aInit"), req.getParameter("mInit"), req.getParameter("jInit"));
         var dateSup = String.format("%s-%s-%s", req.getParameter("aFinal"), req.getParameter("mFinal"), req.getParameter("jFinal"));
         if(!verifDates(dateInf, dateSup)) {
-            throw new TraitementException("32");
+            throw new TraitementException("31");
         }
         bop.setDateInf(dateInf);
         bop.setDateSup(dateSup);
         bop.listerParDates();
         ArrayList<String[]> result = bop.getOperationsParDates();
+        if(result.isEmpty()) {
+            throw new TraitementException("32");
+        }
         req.setAttribute("listeOp", result);
         bop.fermerConnexion();
         return req;

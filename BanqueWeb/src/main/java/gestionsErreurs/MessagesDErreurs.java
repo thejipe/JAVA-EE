@@ -16,7 +16,8 @@ public class MessagesDErreurs {
         messages.put("24", "Opération refusée, débit demandé supérieur au crédit du compte");
         messages.put("25", "La valeur doit être numérique");
         messages.put("26", "Aucune valeur n'a été saisie");
-        messages.put("32", "La date initiale doit être inférieure à la date finale");
+        messages.put("31", "La date initiale doit être inférieure à la date finale");
+        messages.put("32", "Il n'y a eu aucune opération effectuée durant cette période");
     }
 
     public static String getMessageDErreur(String id) {
