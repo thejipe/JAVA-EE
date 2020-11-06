@@ -26,7 +26,7 @@ public class BOperations {
     }
 
     /**
-     *
+     * Provide access to the associated data base. By opening a connection with this one.
      */
     public void ouvrirConnexion() {
         try {
@@ -38,7 +38,7 @@ public class BOperations {
     }
 
     /**
-     *
+     * Close the opened connection to the data base.
      */
     public void fermerConnexion() {
         try {
@@ -49,8 +49,11 @@ public class BOperations {
     }
 
     /**
+     * Provide the consultation access to the data associated to the set account number.
+     * The fields "solde", "nom", "prenom" are suposed available before this call.
      *
-     * @throws TraitementException
+     * @throws TraitementException If no account was defined with the specified account number,
+     * or to replace errors which come from an SQLException that happen during the process.
      */
     public void consulter() throws TraitementException {
         try (Statement statmt = connect.createStatement()) {
@@ -67,7 +70,8 @@ public class BOperations {
     }
 
     /**
-     *
+     * Process the specified traitment operation, in the account, by using "value" and "op" fields, if possible.
+     * 
      * @throws TraitementException
      */
     public void traiter() throws TraitementException {
