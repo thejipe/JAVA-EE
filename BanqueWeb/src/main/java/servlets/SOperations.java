@@ -26,9 +26,8 @@ public class SOperations extends HttpServlet {
         SAISIE, CONSULTATION, FIN_TRAITEMENT
     }
 
-    /**
-     *
-     */
+    private final static String [] CLIENT_ATTRIBUTES =
+            {"nom", "prenom", "solde", "op", "entier", "decimal", "result"};
     private BOperations bop;
 
     /**
@@ -64,13 +63,12 @@ public class SOperations extends HttpServlet {
                 }
                 break;
             case FIN_TRAITEMENT:
-                // TODO
-                //session.invalidate(); ???
-                /*
-                for(String attribute: session.getAttributeNames()) {
+                // TODO : verif and finish fill the CLIENT_ATTRIBUTES array
+                // faire une liste des attributs associés au client et tous les supprimer (cf fin exo 16)
+                for(String attribute: CLIENT_ATTRIBUTES) {
                     session.removeAttribute(attribute);
-                } ??? Ou plutôt faire une liste des attributs associés au client et tous les supprimer (cf fin exo 16)
-                */
+                }
+                session.setAttribute("noCompte", null);
                 session.setAttribute("sesOPE", MethodMode.SAISIE.toString());
                 doPost(request, response);
                 break;
@@ -86,7 +84,7 @@ public class SOperations extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.setAttribute("sesOPE", "SAISIE");
+        session.setAttribute("sesOPE", MethodMode.SAISIE.toString());
         getServletContext().getRequestDispatcher("/jsp/JSaisieNoDeCompte.jsp").forward(request, response);
     }
 
