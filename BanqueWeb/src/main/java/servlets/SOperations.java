@@ -76,7 +76,7 @@ public class SOperations extends HttpServlet {
                 }
                 session.setAttribute("noCompte", null);
                 session.setAttribute("sesOPE", MethodMode.SAISIE.toString());
-                doGet(request, response);
+                getServletContext().getRequestDispatcher("/jsp/JSaisieNoDeCompte.jsp").forward(request, response);
                 break;
         }
     }
