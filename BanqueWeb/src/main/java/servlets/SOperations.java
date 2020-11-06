@@ -42,7 +42,7 @@ public class SOperations extends HttpServlet {
         HttpSession session = request.getSession();
         var action = request.getParameter("action");
         MethodMode statut;
-        if ( action == "finTraitement" ){
+        if ( action.equals("finTraitement")){
             statut = MethodMode.FIN_TRAITEMENT;
         } else {
             statut = MethodMode.valueOf((String) session.getAttribute("sesOPE"));
