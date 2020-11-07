@@ -36,8 +36,10 @@ public class SOperations extends HttpServlet {
     private DataSource ds;
 
     @Override
-    public void init() throws ServletException{
+    public void init() throws ServletException {
         super.init();
+        ds = (DataSource) getServletContext().getAttribute("dataSource");
+        /*
         try {
             String nomDs = getServletContext().getInitParameter("jdbc/Banque");
             var context = new InitialContext();
@@ -45,6 +47,7 @@ public class SOperations extends HttpServlet {
         } catch (NamingException e) {
             System.out.println(e);
         }
+        */
     }
 
     /**
@@ -255,7 +258,7 @@ public class SOperations extends HttpServlet {
      * @throws IOException
      */
     private void process_Error(String action, HttpSession session, HttpServletRequest req, HttpServletResponse res, TraitementException e) throws ServletException, IOException {
-        System.out.println(e.getMessage());
+        //System.out.println(e.getMessage());
         req.setAttribute("Erreur", e.getMessage());
         session.setAttribute("statut","error");
         switch (action) {

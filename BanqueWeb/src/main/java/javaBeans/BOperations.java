@@ -107,6 +107,7 @@ public class BOperations {
             } else
                 throw new TraitementException("24");
         } catch (SQLException e) {
+            System.out.println(e);
             throw new TraitementException("22");
         }
     }
