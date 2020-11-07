@@ -38,8 +38,8 @@ public class SOperations extends HttpServlet {
     @Override
     public void init() throws ServletException{
         super.init();
-        String nomDs = getServletContext().getInitParameter("jdbc/Banque");
         try {
+            String nomDs = getServletContext().getInitParameter("jdbc/Banque");
             var context = new InitialContext();
             ds = (DataSource) context.lookup("java:comp/env/" + nomDs);
         } catch (NamingException e) {

@@ -27,9 +27,6 @@ public class BOperations {
     }
 
     /*
-     * Provide access to the associated data base. By opening a connection with this one.
-     */
-    /*
     public void ouvrirConnexion() {
         try {
             connect = DriverManager.getConnection(
@@ -39,11 +36,14 @@ public class BOperations {
         }
     }*/
 
+    /**
+     * Provide access to the associated data base. By opening a connection with this one.
+     */
     public void ouvrirConnexion(DataSource ds) throws TraitementException {
         try {
             connect = ds.getConnection();
-        } catch (SQLException e) {
-            //System.out.println(e);
+        } catch (SQLException | NullPointerException e) {
+            System.out.println(e);
             throw new TraitementException("21");
         }
     }
@@ -55,7 +55,7 @@ public class BOperations {
         try {
             connect.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e);
             throw new TraitementException("22");
         }
     }
@@ -131,7 +131,7 @@ public class BOperations {
             result.close();
             statment.close();
         } catch (SQLException e) {
-            System.out.println("err : " + e.getMessage());
+            System.out.println(e);
             throw new TraitementException("3");
         }
     }
