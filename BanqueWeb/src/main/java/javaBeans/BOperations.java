@@ -55,7 +55,7 @@ public class BOperations {
         try {
             connect.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("SQLException " + e.getMessage());
             throw new TraitementException("22");
         }
     }
@@ -107,7 +107,7 @@ public class BOperations {
             } else
                 throw new TraitementException("24");
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("SQLException " + e.getMessage());
             throw new TraitementException("22");
         }
     }
@@ -132,7 +132,7 @@ public class BOperations {
             result.close();
             statment.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("SQLException " + e.getMessage());
             throw new TraitementException("3");
         }
     }

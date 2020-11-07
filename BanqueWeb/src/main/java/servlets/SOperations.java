@@ -3,8 +3,6 @@ package servlets;
 import gestionsErreurs.TraitementException;
 import javaBeans.BOperations;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,15 +37,6 @@ public class SOperations extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         ds = (DataSource) getServletContext().getAttribute("dataSource");
-        /*
-        try {
-            String nomDs = getServletContext().getInitParameter("jdbc/Banque");
-            var context = new InitialContext();
-            ds = (DataSource) context.lookup("java:comp/env/" + nomDs);
-        } catch (NamingException e) {
-            System.out.println(e);
-        }
-        */
     }
 
     /**
@@ -161,12 +150,12 @@ public class SOperations extends HttpServlet {
      * @throws TraitementException
      */
     private HttpServletRequest listeOperations(HttpServletRequest req) throws TraitementException {
-        bop.ouvrirConnexion(ds);
         var dateInf = String.format("%s-%s-%s", req.getParameter("aInit"), req.getParameter("mInit"), req.getParameter("jInit"));
         var dateSup = String.format("%s-%s-%s", req.getParameter("aFinal"), req.getParameter("mFinal"), req.getParameter("jFinal"));
         if(!verifDates(dateInf, dateSup)) {
             throw new TraitementException("31");
         }
+        bop.ouvrirConnexion(ds);
         bop.setDateInf(dateInf);
         bop.setDateSup(dateSup);
         bop.listerParDates();
