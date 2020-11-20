@@ -1,3 +1,5 @@
+package InitApp;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContextEvent;

@@ -5,7 +5,7 @@
          version="4.0">
 
     <listener>
-        <listener-class>InitBanqueWeb</listener-class>
+        <listener-class>InitApp.InitBanqueWeb</listener-class>
     </listener>
 
     <resource-ref>
