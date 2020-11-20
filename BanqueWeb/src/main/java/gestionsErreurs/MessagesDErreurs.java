@@ -2,6 +2,9 @@ package gestionsErreurs;
 
 import java.util.HashMap;
 
+/**
+ * This class is a container for all error messages that can be throws with a TraitementException.
+ */
 public class MessagesDErreurs {
 
     private final static HashMap<String, String> messages = new HashMap<>();
@@ -20,6 +23,11 @@ public class MessagesDErreurs {
         messages.put("32", "Il n'y a eu aucune opération effectuée durant cette période");
     }
 
+    /**
+     * Provided the message associated with the specified ID.
+     * @param id The ID of the Exception message thrown
+     * @return The message associated to this ID, or null if doesn't exist.
+     */
     public static String getMessageDErreur(String id) {
         return messages.get(id);
     }
