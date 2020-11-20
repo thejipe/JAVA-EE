@@ -13,7 +13,7 @@ public class TraitementException extends Exception {
 
     /**
      * Provide associated message that should be the message ID.
-     * @return the message ID defined for this Exception
+     * @return the message defined for the specified error ID
      */
     @Override
     public String getMessage() {

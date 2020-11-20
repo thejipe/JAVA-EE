@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 /**
- * This class represent
+ * This class represent the servlet of the "BanqueWeb" application.
  */
 @WebServlet(urlPatterns = {"/Compte/SaisieNoDeCompte", "/Compte/Operations"})
 public class SOperations extends HttpServlet {
 
     /**
-     *
+     * This enum is used to know the current step of the process in a post operation
      */
     enum MethodMode {
         SAISIE, CONSULTATION, FIN_TRAITEMENT
@@ -33,6 +33,10 @@ public class SOperations extends HttpServlet {
     private BOperations bop;
     private DataSource ds;
 
+    /**
+     * Used to init the servlet when it's start.
+     * @throws ServletException propagation of the super method "init"
+     */
     @Override
     public void init() throws ServletException {
         super.init();
@@ -40,7 +44,7 @@ public class SOperations extends HttpServlet {
     }
 
     /**
-     *
+     * Method that it's call when a POST request is received.
      * @param request
      * @param response
      * @throws ServletException
@@ -78,7 +82,6 @@ public class SOperations extends HttpServlet {
                 }
                 break;
             case FIN_TRAITEMENT:
-                // TODO : verif and finish fill the CLIENT_ATTRIBUTES array
                 for(String attribute: CLIENT_ATTRIBUTES) {
                     session.removeAttribute(attribute);
                 }
@@ -90,7 +93,7 @@ public class SOperations extends HttpServlet {
     }
 
     /**
-     *
+     * Method that it's call when a GET request is received.
      * @param request
      * @param response
      * @throws ServletException
@@ -168,6 +171,12 @@ public class SOperations extends HttpServlet {
         return req;
     }
 
+    /**
+     *
+     * @param dateInf
+     * @param dateSup
+     * @return
+     */
     private boolean verifDates(String dateInf, String dateSup) {
         var valuesInf = dateInf.split("-");
         var valuesSup = dateSup.split("-");
@@ -258,5 +267,4 @@ public class SOperations extends HttpServlet {
             case "retour": break;
         }
     }
-
 }

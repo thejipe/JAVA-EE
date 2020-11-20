@@ -3,7 +3,7 @@ package gestionsErreurs;
 import java.util.HashMap;
 
 /**
- * This class is a container for all error messages that can be throws with a TraitementException.
+ * This class is a container for all error messages that a TraitementException can thrown.
  */
 public class MessagesDErreurs {
 
@@ -26,7 +26,7 @@ public class MessagesDErreurs {
     /**
      * Provided the message associated with the specified ID.
      * @param id The ID of the Exception message thrown
-     * @return The message associated to this ID, or null if doesn't exist.
+     * @return The message associated to this ID, or null if doesn't exist
      */
     public static String getMessageDErreur(String id) {
         return messages.get(id);

@@ -37,7 +37,7 @@ public class BOperations {
     }*/
 
     /**
-     * Provide access to the associated data base. By opening a connection with this one.
+     * Provide access to the associated data base, by opening a connection with this one.
      */
     public void ouvrirConnexion(DataSource ds) throws TraitementException {
         try {
@@ -61,11 +61,11 @@ public class BOperations {
     }
 
     /**
-     * Provide the consultation access to the data associated to the set account number.
+     * Provide the consultation process to the data associated to the setted account number.
      * The fields "solde", "nom", "prenom" are suposed available before this call.
      *
      * @throws TraitementException If no account was defined with the specified account number,
-     * or to replace errors which come from an SQLException that happen during the process.
+     * or to secify an error during the data base access.
      */
     public void consulter() throws TraitementException {
         try (Statement statmt = connect.createStatement()) {
@@ -82,9 +82,11 @@ public class BOperations {
     }
 
     /**
-     * Process the specified traitment operation, in the account, by using "value" and "op" fields, if possible.
+     * Process the traitment operation, in the account,
+     * by using the setted "noCompte", "value" and "op" fields.
      * 
-     * @throws TraitementException
+     * @throws TraitementException if there is any problem with the data base access,
+     * or if the account balance doesn't permit the specified operation
      */
     public void traiter() throws TraitementException {
         Statement statmt = null;
@@ -113,8 +115,9 @@ public class BOperations {
     }
 
     /**
+     * Provide all operations that happend in the account between the setted "dateInf" and dateSup" fields.
      *
-     * @throws TraitementException
+     * @throws TraitementException if there is any problem to access the account data
      */
     public void listerParDates() throws TraitementException {
         try {
@@ -138,120 +141,121 @@ public class BOperations {
     }
 
     /**
-     *
-     * @return
+     * Provide the value of the field "dateInf" used in the listing of operations.
+     * @return the value of the associated field, or null if it's unset
      */
     public String getDateInf() {
         return dateInf;
     }
 
     /**
-     *
-     * @param dateInf
+     * Used to set the value of the "dateInf" field used in the listing of operations.
+     * @param dateInf the value used to set the "dateInf" field, in the form "JJ-MM-AAAA"
      */
     public void setDateInf(String dateInf) {
         this.dateInf = dateInf;
     }
 
     /**
-     *
-     * @return
+     * Provide the value of the field "dateSup" used in the listing of operations.
+     * @return the value of the associated field, or null if it's unset
      */
     public String getDateSup() {
         return dateSup;
     }
 
     /**
-     *
-     * @param dateSup
+     * Used to set the value of the "dateSup" field used in the listing of operations.
+     * @param dateSup the value used to set the "dateSup" field, in the form "JJ-MM-AAAA"
      */
     public void setDateSup(String dateSup) {
         this.dateSup = dateSup;
     }
 
     /**
-     *
-     * @return
+     * Provide the list of operations associated with the last call to the "listerParDates" method.
+     * @return the list of operations between "dateInf" and "dateSup" fields
      */
     public ArrayList<String[]> getOperationsParDates() {
         return operationsParDates;
     }
 
     /**
-     *
-     * @param op
+     * Used to set the value of the "op" field used in the traitment process.
+     * @param op the value used to set "op" field that must be "-" or "+"
      */
     public void setOp(String op) {
         this.op = op;
     }
 
     /**
-     *
-     * @param valeur
+     * Used to set the value of the "valeur" field used in the traitment process.
+     * @param valeur the value used to set "valeur" field that must be a numeric value
      */
     public void setValeur(String valeur) {
         this.valeur = new BigDecimal(valeur);
     }
 
     /**
-     *
-     * @return
+     * Provide the value of the "op" field used in the traitmet process.
+     * @return the value of the associated filed, that must be "-" or "+"
      */
     public String getOp() {
         return op;
     }
 
     /**
-     *
-     * @return
+     * Provide the previous account balance, before the last call to the "listerParDates" method.
+     * @return the value of the associated field that represent the previous account balance
      */
     public BigDecimal getAncienSolde() {
         return ancienSolde;
     }
 
     /**
-     *
-     * @return
+     * Provide the current account balance, after the last call to the "listerParDates" method.
+     * @return the value of the associated field that represent the current account balance
      */
     public BigDecimal getNouveauSolde() {
         return nouveauSolde;
     }
 
     /**
-     *
-     * @return
+     * Provide the current value of the field "valeur" that will be used in the next call to the
+     * "listerParDates" method to determinate the new account balance.
+     * @return the value of the associated field that represent the value used in the traitment process
      */
     public String getValeur() {
         return valeur.toString();
     }
 
     /**
-     *
-     * @return
+     * Provide the current account number used in each method that exchange with the data base.
+     * @return the value of the associated field that represent the current account number
      */
     public String getNoCompte() {
         return noCompte;
     }
 
     /**
-     *
-     * @return
+     * Provide the last name of the current account owner, set after a call to the consultation process method.
+     * @return {@String} that represent the last name of the current account owner
      */
     public String getNom() {
         return nom;
     }
 
     /**
-     *
-     * @return
+     * Provide the first name of the current account owner, set after a call to the consultation process method.
+     * @return {@String} that represent the first name of the current account owner
      */
     public String getPrenom() {
         return prenom;
     }
 
     /**
-     * 
-     * @return
+     * Provide the account balance of the current account, set after a call to the consultation process method.
+     * @return {@BigDecimal} that represent the account balance of the current account
      */
     public BigDecimal getSolde() {
         return solde;
