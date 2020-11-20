@@ -3,6 +3,7 @@ package servlets;
 import gestionsErreurs.TraitementException;
 import javaBeans.BOperations;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +22,7 @@ import java.util.regex.Pattern;
 public class SOperations extends HttpServlet {
 
     /**
-     * This enum is used to know the current step of the process in a post operation
+     * This enum is used to know the current step of the process in a POST operation
      */
     enum MethodMode {
         SAISIE, CONSULTATION, FIN_TRAITEMENT
@@ -45,10 +46,10 @@ public class SOperations extends HttpServlet {
 
     /**
      * Method that it's call when a POST request is received.
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request Request containing all informations send by the user.
+     * @param response Response containing all informations send to the user.
+     * @throws ServletException Propagate exception of the forward method of {@link RequestDispatcher}
+     * @throws IOException Propagate exception of the forward method of {@link RequestDispatcher}
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -94,10 +95,10 @@ public class SOperations extends HttpServlet {
 
     /**
      * Method that it's call when a GET request is received.
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param request Request containing all informations send by the user.
+     * @param response Response containing all informations send to the user.
+     * @throws ServletException Propagate exception of the forward method of {@link RequestDispatcher}
+     * @throws IOException Propagate exception of the forward method of {@link RequestDispatcher}
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -108,7 +109,7 @@ public class SOperations extends HttpServlet {
     /**
      * Search in database some account's informations about a specific noCompte and put them in a session to expose in user interface.
      * @param req Request containing all informations send by the user.
-     * @throws TraitementException if the noCompte is incorrectly filled in or if the account does not exist.
+     * @throws TraitementException If the noCompte is incorrectly filled in or if the account does not exist.
      */
     private void consultation(HttpServletRequest req) throws TraitementException {
         var noCompte = req.getParameter("no_compt");
@@ -128,8 +129,8 @@ public class SOperations extends HttpServlet {
     /**
      * Update the bank account according to a transaction and a value entered by the user.
      * @param req Request containing all informations send by the user.
-     * @return {@HttpServletRequest} containing the result message of the succes of the transaction.
-     * @throws TraitementException
+     * @return {@link HttpServletRequest} containing the result message of the succes of the transaction.
+     * @throws TraitementException Propagate {@link TraitementException} of the {@link BOperations} methods
      */
     private HttpServletRequest traitement(HttpServletRequest req) throws TraitementException {
         bop.ouvrirConnexion(ds);
@@ -150,7 +151,7 @@ public class SOperations extends HttpServlet {
      * Get all transactions between 2 dates set abose the request.
      * @param req Request containing all informations send by the user.
      * @return {@HttpServletRequest} containing the result message of the succes of the transaction.
-     * @throws TraitementException
+     * @throws TraitementException If the set dates are incorrect, or if there is no operation during the specified interval
      */
     private HttpServletRequest listeOperations(HttpServletRequest req) throws TraitementException {
         var dateInf = String.format("%s-%s-%s", req.getParameter("aInit"), req.getParameter("mInit"), req.getParameter("jInit"));
@@ -172,10 +173,10 @@ public class SOperations extends HttpServlet {
     }
 
     /**
-     *
-     * @param dateInf
-     * @param dateSup
-     * @return
+     * Used to check that "dateInf" is lower than "dateSup"
+     * @param dateInf Upper bound of the time interval used to check operations history
+     * @param dateSup Lower bound of the time interval used to check operations history
+     * @return True if the dates are correct, false otherwise
      */
     private boolean verifDates(String dateInf, String dateSup) {
         var valuesInf = dateInf.split("-");
@@ -189,10 +190,10 @@ public class SOperations extends HttpServlet {
     }
 
     /**
-     *
-     * @param noCOmpte
-     * @return
-     * @throws TraitementException
+     * Used to check that "noCompte" is in a valid account number format.
+     * @param noCOmpte The specified account number send by the user
+     * @return True if the account number is in a correct format,
+     * @throws TraitementException If the specified account number is in a wrong format
      */
     private boolean verifNoDeCompte(String noCOmpte) throws TraitementException {
         if (noCOmpte.length() == 4){
@@ -202,10 +203,10 @@ public class SOperations extends HttpServlet {
     }
 
     /**
-     *
-     * @param value
-     * @return
-     * @throws TraitementException
+     * Used to check if the value specified by the user is correct.
+     * @param value specified by the user and represent the amount that need to be added or substract to the current account balance
+     * @return True if the value is correct, false otherwise
+     * @throws TraitementException If the specified value is incorrect
      */
     private boolean verifValeur(String value) throws TraitementException {
         if (!value.equals(".")){
@@ -216,14 +217,14 @@ public class SOperations extends HttpServlet {
     }
 
     /**
-     *
-     * @param action
-     * @param session
-     * @param req
-     * @param res
-     * @throws TraitementException
-     * @throws ServletException
-     * @throws IOException
+     * Call the right method depending on the specified action.
+     * @param action Specifies in which case we are and which JSP forward
+     * @param session Provide the current {@link HttpSession} of the user that contains attributs
+     * @param req Request containing all informations send by the user.
+     * @param res Response containing all informations send to the user.
+     * @throws TraitementException If there is an error during process or if the used parameters are incorrect
+     * @throws ServletException Propagate exception of the forward method of {@link RequestDispatcher}
+     * @throws IOException Propagate exception of the forward method of {@link RequestDispatcher}
      */
     private void process_Operation(String action, HttpSession session, HttpServletRequest req, HttpServletResponse res) throws TraitementException, ServletException, IOException {
         HttpServletRequest request;
@@ -246,17 +247,16 @@ public class SOperations extends HttpServlet {
     }
 
     /**
-     *
-     * @param action
-     * @param session
-     * @param req
-     * @param res
-     * @param e
-     * @throws ServletException
-     * @throws IOException
+     * Used to set error attribut with the correct id of the throws {@link TraitementException}.
+     * @param action Specifies in which case we are and if it's necessary to forward a specific JSP
+     * @param session Provide the current {@link HttpSession} of the user that contains attributs
+     * @param req Request containing all informations send by the user
+     * @param res Response containing all informations send to the user
+     * @param e Exception throw that containing the id of the error
+     * @throws ServletException Propagate exception of the forward method of {@link RequestDispatcher}
+     * @throws IOException Propagate exception of the forward method of {@link RequestDispatcher}
      */
     private void process_Error(String action, HttpSession session, HttpServletRequest req, HttpServletResponse res, TraitementException e) throws ServletException, IOException {
-        //System.out.println(e.getMessage());
         req.setAttribute("Erreur", e.getMessage());
         session.setAttribute("statut","error");
         switch (action) {
