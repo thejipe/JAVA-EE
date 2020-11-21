@@ -14,7 +14,7 @@ public class InitBanqueWeb implements ServletContextListener {
     /**
      * Override the contextInitalized method of ServletContextListener.
      * Register the data source, that will be used to exchange with the database, as attribut of the context.
-     * @param sce ServletContextEvent that provide the servlet context.
+     * @param sce {@link ServletContextEvent} that provide the servlet context.
      */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
